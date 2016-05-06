@@ -39,6 +39,10 @@ public abstract class Scheduler implements ScheduledTask , Handler.Callback {
      */
     public static final int MSG_TASK_COMPLETED = 1 << 3;
 
+    /**
+     * Used when {@link Handler#sendMessage(Message)} is called
+     * Indicates that the task has been cancelled
+     */
     public static final int MSG_TASK_CANCELED = 1 << 4;
 
     /**
@@ -409,11 +413,6 @@ public abstract class Scheduler implements ScheduledTask , Handler.Callback {
             mElapsedActiveTime += deltaTime;
             mLastTime = currentTime;
             mElapsedRealTime = mLastTime - mTaskStartedTime;
-
-            /*
-            if the duration of the task has passed, finish it
-            残り時間が１インターバル未満になっているかを確認する
-             */
 
             if (isTimeLeftLessThanInterval()) {
                 sendMessage(MSG_TASK_COMPLETED);
